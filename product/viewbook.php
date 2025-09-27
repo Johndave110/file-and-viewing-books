@@ -1,8 +1,6 @@
 <?php
     require_once "../classes/Books.php";
-
-    $book = new Books();
-    $books = $book->viewBook();
+    $bookObj = new Books();
 ?>
 
 <!DOCTYPE html>
@@ -11,47 +9,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Books</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 80%;
-            margin: 20px auto;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 10px;
-            text-align: left;
-        }
-        h1 {
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    <h1>Library Inventory</h1>
-
+    <h1>Book List</h1>
+    <a href="../product/addbook.php" class="viewbook">Add Books</a>
     <table>
         <thead>
             <tr>
-                <th>ID</th>
+                <th>Book ID</th>
                 <th>Title</th>
                 <th>Author</th>
                 <th>Genre</th>
                 <th>Publication Date</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <?php if ($books): ?>
-                <?php foreach ($books as $row): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($row['id']) ?></td>
-                        <td><?= htmlspecialchars($row['title']) ?></td>
-                        <td><?= htmlspecialchars($row['author']) ?></td>
-                        <td><?= htmlspecialchars($row['genre']) ?></td>
-                        <td><?= htmlspecialchars($row['publication_date']) ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
+            <?php
+                $no = 1;
+                foreach($bookObj->viewBook() as $books){
+            ?>
+            <tr>
+                <td><?= $no++ ?></td>
+                <td><?= $books["title"] ?></td>
+                <td><?= $books["author"] ?></td>
+                <td><?= $books["genre_name"] ?></td>
+                <td><?= $books["publication_date"] ?></td>  
+                <td>
+                    <a href="editbook.php?id=<?= $books["book_id"] ?>">Edit</a>
+                    <a href="delete.php?id=<?= $books["book_id"] ?>" onclick="return">Delete</a>
+                </td>
+                </tr>
+            <?php
+            }
+            ?>
         </tbody>
     </table>
 </body>
