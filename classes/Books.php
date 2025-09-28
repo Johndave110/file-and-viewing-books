@@ -67,8 +67,8 @@ class Books{
         }
     }
 
-    public function isProductExist($title, $bid=""){
-        $sql = "SELECT COUNT(*) as total FROM books WHERE title=:title and id <> :id";
+    public function isBookExist($title, $bid=""){
+        $sql = "SELECT COUNT(*) as total FROM books WHERE title=:title and book_id <> :id";
         $query = $this->db->connect()->prepare($sql);
         $query->bindParam(":title", $title);
         $query->bindParam(":id", $bid);
@@ -88,7 +88,7 @@ class Books{
     
 
     public function editBook($bid){
-        $sql = "UPDATE product set title=:title, author=:author, genre_id=:genre_id, publication_date=:publication_date WHERE id=:id";
+        $sql = "UPDATE books set title=:title, author=:author, genre_id=:genre_id, publication_date=:publication_date WHERE book_id=:id";
         $query = $this->db->connect()->prepare($sql);
         
         $query->bindParam(":title", $this->title);
@@ -101,7 +101,7 @@ class Books{
     }
 
     public function deleteBooks($bid){
-        $sql = "DELETE FROM books where id=:id";
+        $sql = "DELETE FROM books where book_id=:id";
 
         $query = $this->db->connect()->prepare($sql);
 

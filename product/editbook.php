@@ -1,20 +1,20 @@
 <?php
     require_once "../classes/Books.php";
-    $booksObj = new Books();
+    $bookObj = new Books();
 
     $books = ["title"=>"", "author"=>"", "genre_name"=>"", "publication_date"=>""];
     $errors = ["title"=>"", "author"=>"", "genre_name"=>"", "publication_date"=>"" ];
 
     if($_SERVER["REQUEST_METHOD"] == "GET"){
-        if(isset($_GET["book_id"])){
-            $bid = trim(htmlspecialchars($_GET["book_id"]));
-            $books = $booksObj->fetchBooks($bid);
+        if(isset($_GET["id"])){
+            $bid = trim(htmlspecialchars($_GET["id"]));
+            $books = $bookObj->fetchBooks($bid);
             if(!$books){
                 echo "<a href='viewbook.php'>View Books</a>";
                 exit("No Books Found");
             }
         }else{
-            echo "<a href='viewbook.php'>View Books";
+            echo "<a href='viewbook.php'>View Books</a>";
             exit("No Books Found");
         }
     }
@@ -76,13 +76,18 @@
         <input type="text" name="author" id="author" value="<?= htmlspecialchars($books["author"]) ?>"><br>
         <p><?= $errors["author"] ?></p>
 
-        <label for="genre_name">Genre <span>*</span></label>
-        <select name="genre_name" id="genre_name">
-        <option value="">--select genre--</option>
-        <php>
-        <option value="">
-        </option>
-        </select><br>
+        <label for="genre_id">Genre <span>*</span></label><br>
+        <select name="genre_id" id="genre_id">
+            <option value="">-- Select Genre --</option>
+            <?php 
+            $genres = $bookObj->getGenres();
+            foreach($genres as $genre): ?>
+                <option value="<?= $genre["genre_id"] ?>"
+                    <?= ($books["genre_name"] == $genre["genre_id"]) ? "selected" : "" ?>>
+                    <?= htmlspecialchars($genre["genre_name"]) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
         <p><?= $errors["genre_name"] ?></p>
 
         <label for="publication_date">Publication Date:</label><br>

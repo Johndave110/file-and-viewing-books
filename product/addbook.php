@@ -2,7 +2,6 @@
 require_once "../classes/Books.php";
 
 $booksObj = new Books();
-$genres = $booksObj->getGenres();
 
 $books = ["title"=>"", "author"=>"", "genre_id"=>"", "publication_date"=>""];
 $errors = ["title"=>"", "author"=>"", "genre_id"=>"", "publication_date"=>"" ];
@@ -68,12 +67,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <label for="genre_id">Genre <span>*</span></label><br>
         <select name="genre_id" id="genre_id">
             <option value="">-- Select Genre --</option>
-            <?php foreach($genres as $genre): ?>
-                <option value="<?= $genre['genre_id'] ?>"
-                    <?= ($books['genre_id'] == $genre['genre_id']) ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($genre['genre_name']) ?>
+            <?php 
+            foreach($booksObj->getGenres() as $genre){
+            ?>
+                <option value="<?= $genre["genre_id"] ?>"
+                    <?= ($books["genre_id"] == $genre["genre_name"]) ? "selected" : "" ?>>
+                    <?= htmlspecialchars($genre["genre_name"]) ?>
                 </option>
-            <?php endforeach; ?>
+            <?php 
+            }
+            ?>    
         </select>
         <p><?= $errors["genre_id"] ?></p>
 

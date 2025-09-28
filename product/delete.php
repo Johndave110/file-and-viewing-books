@@ -11,7 +11,7 @@
                 exit("No Books Found");
             }else{
             $booksObj->deleteBooks($bid);
-            header("location: viewproduct.php");
+            header("location: viewbook.php");
         }
         }else{
         echo "<a href='viewbook.php'>View Books</a>";
